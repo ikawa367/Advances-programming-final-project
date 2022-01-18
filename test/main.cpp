@@ -2,7 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include"MainMenu.h"
-
+#include "SnakeFunc.h"
 using namespace std;
 
 int main()
@@ -38,15 +38,16 @@ int main()
                             switch (menuDisplay.getPressedItem())
                             {
                                 case 0:
-                                    cout << "PLAY is pressed" << endl;
+                                    snake();
                                     break;
 
                                 case 1:
                                     cout << "Game setting is pressed" << endl;
+                                    //tabe engine tnzimat o inja call kon
                                     break;
 
                                 case 2:
-                                    cout << "exit  is pressed" << endl;
+                                    window.close();
                                     break;
                             }
                     }

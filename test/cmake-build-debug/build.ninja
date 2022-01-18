@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: Ap-project
+# Project: test
 # Configurations: Debug
 # =============================================================================
 
@@ -42,59 +42,6 @@ include CMakeFiles/rules.ninja
 cmake_ninja_workdir = C$:/Users/lenovo/CLionProjects/test/cmake-build-debug/
 
 #############################################
-# Utility command for edit_cache
-
-build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\lenovo\CLionProjects\test\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build edit_cache: phony CMakeFiles/edit_cache.util
-
-# =============================================================================
-# Object build statements for EXECUTABLE target Ap-project
-
-
-#############################################
-# Order-only phony target for Ap-project
-
-build cmake_object_order_depends_target_Ap-project: phony || CMakeFiles/Ap-project.dir
-
-build CMakeFiles/Ap-project.dir/main.cpp.obj: CXX_COMPILER__Ap-project_Debug C$:/Users/lenovo/CLionProjects/test/main.cpp || cmake_object_order_depends_target_Ap-project
-  DEP_FILE = CMakeFiles\Ap-project.dir\main.cpp.obj.d
-  FLAGS = -g
-  INCLUDES = -IC:/Users/lenovo/CLionProjects/test/SFML-2.5.1/include
-  OBJECT_DIR = CMakeFiles\Ap-project.dir
-  OBJECT_FILE_DIR = CMakeFiles\Ap-project.dir
-
-build CMakeFiles/Ap-project.dir/MainMenu.cpp.obj: CXX_COMPILER__Ap-project_Debug C$:/Users/lenovo/CLionProjects/test/MainMenu.cpp || cmake_object_order_depends_target_Ap-project
-  DEP_FILE = CMakeFiles\Ap-project.dir\MainMenu.cpp.obj.d
-  FLAGS = -g
-  INCLUDES = -IC:/Users/lenovo/CLionProjects/test/SFML-2.5.1/include
-  OBJECT_DIR = CMakeFiles\Ap-project.dir
-  OBJECT_FILE_DIR = CMakeFiles\Ap-project.dir
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target Ap-project
-
-
-#############################################
-# Link the executable Ap-project.exe
-
-build Ap-project.exe: CXX_EXECUTABLE_LINKER__Ap-project_Debug CMakeFiles/Ap-project.dir/main.cpp.obj CMakeFiles/Ap-project.dir/MainMenu.cpp.obj
-  FLAGS = -g
-  LINK_LIBRARIES = -lopengl32  -lwinmm  -lgdi32  -lsfml-system  -lsfml-window  -lsfml-graphics  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  LINK_PATH = -LC:/Users/lenovo/CLionProjects/test/SFML-2.5.1/lib
-  OBJECT_DIR = CMakeFiles\Ap-project.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_FILE = Ap-project.exe
-  TARGET_IMPLIB = libAp-project.dll.a
-  TARGET_PDB = Ap-project.exe.dbg
-
-
-#############################################
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
@@ -106,9 +53,62 @@ build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
 build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 # =============================================================================
+# Object build statements for EXECUTABLE target test
+
+
+#############################################
+# Order-only phony target for test
+
+build cmake_object_order_depends_target_test: phony || CMakeFiles/test.dir
+
+build CMakeFiles/test.dir/main.cpp.obj: CXX_COMPILER__test_Debug C$:/Users/lenovo/CLionProjects/test/main.cpp || cmake_object_order_depends_target_test
+  DEP_FILE = CMakeFiles\test.dir\main.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/Users/lenovo/CLionProjects/test/SFML-2.5.1/include
+  OBJECT_DIR = CMakeFiles\test.dir
+  OBJECT_FILE_DIR = CMakeFiles\test.dir
+
+build CMakeFiles/test.dir/MainMenu.cpp.obj: CXX_COMPILER__test_Debug C$:/Users/lenovo/CLionProjects/test/MainMenu.cpp || cmake_object_order_depends_target_test
+  DEP_FILE = CMakeFiles\test.dir\MainMenu.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/Users/lenovo/CLionProjects/test/SFML-2.5.1/include
+  OBJECT_DIR = CMakeFiles\test.dir
+  OBJECT_FILE_DIR = CMakeFiles\test.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target test
+
+
+#############################################
+# Link the executable test.exe
+
+build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles/test.dir/main.cpp.obj CMakeFiles/test.dir/MainMenu.cpp.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lopengl32  -lwinmm  -lgdi32  -lsfml-system  -lsfml-window  -lsfml-graphics  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_PATH = -LC:/Users/lenovo/CLionProjects/test/SFML-2.5.1/lib
+  OBJECT_DIR = CMakeFiles\test.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = test.exe
+  TARGET_IMPLIB = libtest.dll.a
+  TARGET_PDB = test.exe.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\Users\lenovo\CLionProjects\test\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build edit_cache: phony CMakeFiles/edit_cache.util
+
+# =============================================================================
 # Target aliases.
 
-build Ap-project: phony Ap-project.exe
+build test: phony test.exe
 
 # =============================================================================
 # Folder targets.
@@ -118,7 +118,7 @@ build Ap-project: phony Ap-project.exe
 #############################################
 # Folder: C:/Users/lenovo/CLionProjects/test/cmake-build-debug
 
-build all: phony Ap-project.exe
+build all: phony test.exe
 
 # =============================================================================
 # Built-in targets

@@ -1,14 +1,12 @@
 # ninja log v5
-0	361	6641237122561352	CMakeFiles/test.dir/main.cpp.obj	d1228446bd906dac
-370	528	6641237124202213	test.exe	897f2ace27c9790e
-2	564	6641245497678020	CMakeFiles/Ap-project.dir/main.cpp.obj	b427c5fde94bf905
-565	669	6641245498688689	Ap-project.exe	28dbd6e4ff634faf
-3	533	6641251037125883	CMakeFiles/Ap-project.dir/main.cpp.obj	b427c5fde94bf905
-13	550	6641251037310743	CMakeFiles/Ap-project.dir/MainMenu.cpp.obj	619ee7ccaef83cea
-551	646	6641251038244508	Ap-project.exe	38732ed6a033274c
-3	505	6641252078807856	CMakeFiles/Ap-project.dir/MainMenu.cpp.obj	619ee7ccaef83cea
-506	594	6641252079679767	Ap-project.exe	38732ed6a033274c
+10	608	6641277858260817	CMakeFiles/test.dir/MainMenu.cpp.obj	9360249efaf2c54f
+3	621	6641952744802738	CMakeFiles/test.dir/main.cpp.obj	580e9656b160b6f8
 2	514	6641253050284603	CMakeFiles/Ap-project.dir/main.cpp.obj	b427c5fde94bf905
-514	614	6641253051270064	Ap-project.exe	38732ed6a033274c
-2	480	6641253245003937	CMakeFiles/Ap-project.dir/MainMenu.cpp.obj	619ee7ccaef83cea
+622	740	6641952745961517	test.exe	6c6029bd8e9ee45d
 480	566	6641253245845829	Ap-project.exe	38732ed6a033274c
+2	480	6641253245003937	CMakeFiles/Ap-project.dir/MainMenu.cpp.obj	619ee7ccaef83cea
+1	200	6641956563400948	build.ninja	91b06abf41d2eba1
+4	650	6641956570649653	CMakeFiles/test.dir/main.cpp.obj	580e9656b160b6f8
+651	784	6641956571845831	test.exe	6c6029bd8e9ee45d
+2	590	6641957102068453	CMakeFiles/test.dir/main.cpp.obj	580e9656b160b6f8
+598	697	6641957103090863	test.exe	6c6029bd8e9ee45d
