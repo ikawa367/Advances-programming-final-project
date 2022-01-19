@@ -1,5 +1,5 @@
 #include "MainMenu.h"
-
+#include <SFML/Audio.hpp>
 MainMenu::MainMenu(float width, float height)
 {
     if (!fontOfObtions.loadFromFile("Amatic-Bold.ttf"))

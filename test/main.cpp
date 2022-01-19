@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "SFML/Audio.hpp"
+#include <SFML/Audio.hpp>
 #include"MainMenu.h"
 #include "SnakeFunc.h"
 using namespace std;
@@ -13,7 +13,15 @@ int main()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(600, 600), "My window", sf::Style::Default, settings);
-    //sf::Music music;
+    sf::Music music;
+    music.openFromFile("mymusic.wav");
+    //music.openFromFile("mymusic.wav");
+//    if(!music.openFromFile("sound.ogg"))
+//    {
+//        cerr << "ERROR with sound!!!!";
+//    }
+    music.setVolume(50);
+    music.play();
 
     //we make it more dynamic in here instead of giving it the amount of 800 and 600 our selves
     MainMenu menuDisplay(window.getSize().x, window.getSize().y);
@@ -23,11 +31,6 @@ int main()
     {
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
-//        if(!music.openFromFile("sound.ogg"))
-//        {
-//            cerr << "ERROR with sound!!!!";
-//        }
-//        music.play();
         while (window.pollEvent(event))
         {
             switch (event.type)
@@ -53,14 +56,16 @@ int main()
                                 case 1:
                                     cout << "music is pressed" << endl;
                                     //tabe engine tnzimat o inja call kon
-//                                    if(musicFlag)
-//                                    {
-//                                        music.stop();
-//                                    }
-//                                    else
-//                                    {
-//                                        music.play();
-                                    //}
+                                    if(musicFlag)
+                                    {
+                                        music.stop();
+                                        musicFlag=0;
+                                    }
+                                    else
+                                    {
+                                        music.play();
+                                        musicFlag=1;
+                                    }
                                     break;
 
                                 case 2:
