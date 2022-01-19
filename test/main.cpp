@@ -8,6 +8,7 @@
 using namespace std;
 
 bool musicFlag = 1;
+bool difficult_level=0;
 
 int main() {
     sf::ContextSettings settings;
@@ -41,7 +42,7 @@ int main() {
                         case sf::Keyboard::Return:
                             switch (menuDisplay.getPressedItem()) {
                                 case 0:
-                                    snake();
+                                    snake(difficult_level);
                                     break;
 
                                 case 1:
@@ -56,10 +57,12 @@ int main() {
 
                                 case 2:
                                     //difficality easy
+                                    difficult_level=0;
                                     break;
 
                                 case 3:
                                     //difficality hard
+                                    difficult_level=1;
                                     break;
 
                                 case 4:

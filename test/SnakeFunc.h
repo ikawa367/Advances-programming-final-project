@@ -15,9 +15,13 @@ struct Point {
 } p[100];
 
 
-void snake() {
+void snake(bool difficulity) {
     sf::RenderWindow window(sf::VideoMode(1000, 700), "My window");
-    sf::Time speed = sf::seconds(0.6f);
+    sf::Time speed =sf::seconds (0.6f);
+    if(difficulity==1)
+    {
+        speed = sf::seconds(0.2f);
+    }
     sf::Event event;
 
     sf::Texture squareTex, backgroundTex, fruitTex;
