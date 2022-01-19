@@ -1,7 +1,8 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include"MainMenu.h"
+#include "MainMenu.hpp"
+#include "MainMenu.cpp"
 
 using namespace std;
 
@@ -10,7 +11,7 @@ int main()
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
 	sf::RenderWindow window(sf::VideoMode(600, 600), "My window", sf::Style::Default, settings);
-
+    window.setFramerateLimit(60);
 	//we make it more dynamic in here instead of giving it the amount of 800 and 600 our selves
 	MainMenu menuDisplay(window.getSize().x, window.getSize().y);
 

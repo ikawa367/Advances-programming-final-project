@@ -17,7 +17,7 @@ MainMenu::MainMenu(float width, float height)
 
     menuText[1].setFont(fontOfObtions);
     menuText[1].setFillColor(sf::Color::Green);
-    menuText[1].setString("Game Settings");
+    menuText[1].setString("Game Music(ON/OFF)");
     // multiply by 2 means the position is in the middle
     menuText[1].setPosition(sf::Vector2f(width / 2, height / 4 * 2));
 
