@@ -16,8 +16,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(700, 800), "My window", sf::Style::Default, settings);
     sf::Music music;
     music.openFromFile("mymusic.wav");
-
     music.setVolume(50);
+    music.setLoop(true);
     music.play();
 
     //we make it more dynamic in here instead of giving it the amount of 800 and 600 our selves
