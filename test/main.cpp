@@ -4,22 +4,18 @@
 #include <SFML/Audio.hpp>
 #include"MainMenu.h"
 #include "SnakeFunc.h"
+
 using namespace std;
 
-bool musicFlag=1;
+bool musicFlag = 1;
 
-int main()
-{
+int main() {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(600, 600), "My window", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(700, 800), "My window", sf::Style::Default, settings);
     sf::Music music;
     music.openFromFile("mymusic.wav");
-    //music.openFromFile("mymusic.wav");
-//    if(!music.openFromFile("sound.ogg"))
-//    {
-//        cerr << "ERROR with sound!!!!";
-//    }
+
     music.setVolume(50);
     music.play();
 
@@ -27,17 +23,13 @@ int main()
     MainMenu menuDisplay(window.getSize().x, window.getSize().y);
 
     // run the program as long as the window is open
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
-        while (window.pollEvent(event))
-        {
-            switch (event.type)
-            {
+        while (window.pollEvent(event)) {
+            switch (event.type) {
                 case sf::Event::KeyReleased:
-                    switch (event.key.code)
-                    {
+                    switch (event.key.code) {
                         case sf::Keyboard::Up:
                             menuDisplay.moveUp();
                             break;
@@ -47,28 +39,30 @@ int main()
                             break;
 
                         case sf::Keyboard::Return:
-                            switch (menuDisplay.getPressedItem())
-                            {
+                            switch (menuDisplay.getPressedItem()) {
                                 case 0:
                                     snake();
                                     break;
 
                                 case 1:
-                                    cout << "music is pressed" << endl;
-                                    //tabe engine tnzimat o inja call kon
-                                    if(musicFlag)
-                                    {
+                                    if (musicFlag) {
                                         music.stop();
-                                        musicFlag=0;
-                                    }
-                                    else
-                                    {
+                                        musicFlag = 0;
+                                    } else {
                                         music.play();
-                                        musicFlag=1;
+                                        musicFlag = 1;
                                     }
                                     break;
 
                                 case 2:
+                                    //difficality easy
+                                    break;
+
+                                case 3:
+                                    //difficality hard
+                                    break;
+
+                                case 4:
                                     window.close();
                                     break;
                             }
@@ -79,11 +73,9 @@ int main()
                     break;
             }
         }
-
         window.clear(sf::Color::Black);
         menuDisplay.draw(window);
         window.display();
     }
-
     return 0;
 }
