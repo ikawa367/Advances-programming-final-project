@@ -41,6 +41,7 @@ int main() {
                         case sf::Keyboard::Return:
                             switch (menuDisplay.getPressedItem()) {
                                 case 0:
+                                    engine.setSpeed(difficultyLevel);
                                     engine.run();
                                     break;
 

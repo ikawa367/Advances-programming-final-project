@@ -111,13 +111,24 @@ public:
     };
 
     Engine() {
-        speed = 2;
         snake1Direction = direction::RIGHT;
         snake2Direction = direction::RIGHT;
         timeSinceLastMove = sf::Time::Zero;
         newSnake();
         moveApple();
         sectionsToAdd=0;
+    }
+
+    void setSpeed(bool hard)
+    {
+        if(hard == true)
+        {
+            speed = 4;
+        }
+        else
+        {
+            speed = 2;
+        }
     }
 
     void input() {
