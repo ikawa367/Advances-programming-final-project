@@ -5,67 +5,105 @@
 #include <deque>
 #include <thread>
 
-class snakeSection {
+class Apple{
+    sf::RectangleShape sprite;
+    sf::RectangleShape sprite2;
+public:
+    Apple()
+    {
+        sf::Vector2f startPosition1(400,400);
+        sf::Vector2f startPosition2(450,300);
+        sprite.setSize(sf::Vector2f(20,20));
+        sprite2.setSize(sf::Vector2f(20,20));
+        sprite.setFillColor(sf::Color::Red);
+        sprite2.setFillColor(sf::Color::Blue);
+        sprite.setPosition(startPosition1);
+        sprite2.setPosition(startPosition2);
+    }
+
+    void setPosition(sf::Vector2f newPosition1 , sf::Vector2f newPosition2)
+    {
+        sprite.setPosition(newPosition1);
+        sprite2.setPosition(newPosition2);
+    }
+
+    //draw function needs getSprite.
+    sf::RectangleShape getSprite1()
+    {
+        return sprite;
+    }
+    sf::RectangleShape getSprite2()
+    {
+        return sprite2;
+    }
+};
+
+
+class snakeSection{
     sf::Vector2f position1;
     sf::Vector2f position2;
-    sf::RectangleShape section1;//first snake
-    sf::RectangleShape section2;//second snake
+    sf::RectangleShape section1;
+    sf::RectangleShape section2;
 public:
-    snakeSection(sf::Vector2f startPosition1) {
+    snakeSection(sf::Vector2f startPosition1)
+    {
         sf::Vector2f startPosition2;
-        startPosition2.x = startPosition1.x;
-        startPosition2.y = startPosition1.y;
-        section1.setSize(sf::Vector2f(20, 20));
-        section2.setSize(sf::Vector2f(20, 20));
+        startPosition2.x=startPosition1.x;
+        startPosition2.y=startPosition1.y;
+        section1.setSize(sf::Vector2f(20,20));
+        section2.setSize(sf::Vector2f(20,20));
         section1.setFillColor(sf::Color::Green);
         section2.setFillColor(sf::Color::Yellow);
         section1.setPosition(startPosition1);
-        section2.setPosition(startPosition1.x,
-                             startPosition1.y);//the place in which snake 2 is located in the beginign
-        position1 = startPosition1;
-        position2 = startPosition2;
+        section2.setPosition(startPosition1.x+50,startPosition1.y+50);
+        position1=startPosition1;
+        position2=startPosition2;
     }
 
-    sf::Vector2f getPosition1() {
+    sf::Vector2f getPosition1()
+    {
         return position1;
     }
-
-    sf::Vector2f getPosition2() {
+    sf::Vector2f getPosition2()
+    {
         return position2;
     }
-
-    void setPosition1(sf::Vector2f newPosition) {
-        position1 = newPosition;
+    void setPosition1(sf::Vector2f newPosition)
+    {
+        position1=newPosition;
     }
-
-    void setPosition2(sf::Vector2f newPosition) {
-        position2 = newPosition;
+    void setPosition2(sf::Vector2f newPosition)
+    {
+        position2=newPosition;
     }
-
-    sf::RectangleShape getShape1() {
+    sf::RectangleShape getShape1()
+    {
         return section1;
     }
-
-    sf::RectangleShape getShape2() {
+    sf::RectangleShape getShape2()
+    {
         return section2;
     }
-
-    void update() {
+    void update()
+    {
         section1.setPosition(position1);
         section2.setPosition(position2); //TODO: dangerous
     }
 };
 
-class Engine {
+class Engine
+{
     //sf::Vector2f resolution; be dard nemikhore
     sf::RenderWindow snakeWindow;
-    vector<snakeSection> snake;
-    vector<snakeSection> snake2;
+    vector<snakeSection>snake;
+    vector<snakeSection>snake2;
     int snake1Direction;
     int snake2Direction;
     deque<int> directionQueue1;
     deque<int> directionQueue2;
     int speed;
+    int sectionsToAdd;
+    Apple apple;
     sf::Time timeSinceLastMove;
 public:
     enum direction {
@@ -78,6 +116,8 @@ public:
         snake2Direction = direction::RIGHT;
         timeSinceLastMove = sf::Time::Zero;
         newSnake();
+        moveApple();
+        sectionsToAdd=0;
     }
 
     void input() {
@@ -284,17 +324,24 @@ public:
         }
     }
 
-    void draw() {
+    void draw()
+    {
         snakeWindow.clear(sf::Color::Black);
-        for (auto &s: snake) {
-            snakeWindow.draw(s.getShape1());
+        snakeWindow.draw(apple.getSprite1());
+        snakeWindow.draw(apple.getSprite2());
+        for (auto &s: snake)
+        {
+            for (auto &s: snake)
+            {
+                snakeWindow.draw(s.getShape1());
+            }
+            for (auto &s: snake2)
+            {
+                snakeWindow.draw(s.getShape2());
+            }
+            snakeWindow.display();
         }
-        for (auto &s: snake2) {
-            snakeWindow.draw(s.getShape2());
-        }
-        snakeWindow.display();
     }
-
     void run() {
         sf::Clock clock;
         snakeWindow.create(sf::VideoMode(800, 600), "main game");
@@ -324,7 +371,28 @@ public:
         sf::Vector2f newSectionPosition = snake[snake.size() - 1].getPosition1(); //-1 because index starts with 0
         snake.push_back(newSectionPosition);
     }
+    void moveApple()
+    {
+        sf::Vector2f appleLocation1;
+        sf::Vector2f appleLocation2;
+        bool badLocation= false;
+        srand(time(nullptr));
+        do{
+            badLocation= false;
+            appleLocation1.x=(rand() % 116)*(rand() % 4);
+            appleLocation2.x=appleLocation1.x + 20*(rand() % 4);
+            appleLocation1.y=rand() % 100 * (rand()%4);
+            appleLocation2.y=appleLocation1.y + 20*(rand()%4);
+            for(auto &i: snake)
+            {
+                if(i.getShape1().getGlobalBounds().intersects(sf::Rect<float>(appleLocation1.x,appleLocation1.y,20,20))&&
+                        i.getShape1().getGlobalBounds().intersects(sf::Rect<float>(appleLocation2.x,appleLocation2.y,20,20)))
+                {
+                    badLocation= true;
+                    break;
+                }
+            }
+        } while (badLocation);
+        apple.setPosition(appleLocation1,appleLocation2);
+    }
 };
-
-
-
