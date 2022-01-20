@@ -63,7 +63,7 @@ build cmake_object_order_depends_target_test: phony || CMakeFiles/test.dir
 
 build CMakeFiles/test.dir/main.cpp.obj: CXX_COMPILER__test_Debug C$:/Users/lenovo/source/repos/prj_snake/test/main.cpp || cmake_object_order_depends_target_test
   DEP_FILE = CMakeFiles\test.dir\main.cpp.obj.d
-  FLAGS = -g -std=gnu++17
+  FLAGS = -g
   INCLUDES = -IC:/Users/lenovo/source/repos/prj_snake/test/SFML-2.5.1/include
   OBJECT_DIR = CMakeFiles\test.dir
   OBJECT_FILE_DIR = CMakeFiles\test.dir
@@ -72,7 +72,7 @@ build CMakeFiles/test.dir/main.cpp.obj: CXX_COMPILER__test_Debug C$:/Users/lenov
 
 build CMakeFiles/test.dir/MainMenu.cpp.obj: CXX_COMPILER__test_Debug C$:/Users/lenovo/source/repos/prj_snake/test/MainMenu.cpp || cmake_object_order_depends_target_test
   DEP_FILE = CMakeFiles\test.dir\MainMenu.cpp.obj.d
-  FLAGS = -g -std=gnu++17
+  FLAGS = -g
   INCLUDES = -IC:/Users/lenovo/source/repos/prj_snake/test/SFML-2.5.1/include
   OBJECT_DIR = CMakeFiles\test.dir
   OBJECT_FILE_DIR = CMakeFiles\test.dir

@@ -8,7 +8,7 @@
 using namespace std;
 
 bool musicFlag = 1;
-bool difficultyLevel=0;
+bool difficultyLevel = 0;
 
 int main() {
     Engine engine; //TODO: nemidoonam jash doroste ya na.
@@ -56,12 +56,12 @@ int main() {
 
                                 case 2:
                                     //difficality easy
-                                    difficultyLevel=0;
+                                    difficultyLevel = 0;
                                     break;
 
                                 case 3:
                                     //difficality hard
-                                    difficultyLevel=1;
+                                    difficultyLevel = 1;
                                     break;
 
                                 case 4:
