@@ -1,121 +1,121 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include<thread>
+#include<vector>
 
-using namespace std;
-
-int game = 1, direction = 0, sizeBodyOfSnake = 1;
-int randomX = 0, randomY = 0;
-bool good = true;
-
-struct Point {
-    int x = 0;
-    int y = 0;
-} p[100];
-
-
-void snake(bool difficulity) {
-    sf::RenderWindow window(sf::VideoMode(1000, 700), "My window");
-    sf::Time speed =sf::seconds (0.6f);
-    if(difficulity==1)
+class snakeSection{
+    sf::Vector2f position1;
+    sf::Vector2f position2;
+    sf::RectangleShape section1;
+    sf::RectangleShape section2;
+public:
+    snakeSection(sf::Vector2f startPosition1)
     {
-        speed = sf::seconds(0.2f);
-    }
-    sf::Event event;
-
-    sf::Texture squareTex, backgroundTex, fruitTex;
-
-    squareTex.loadFromFile("snake1.jpg");
-    backgroundTex.loadFromFile("grass.jpg");
-    fruitTex.loadFromFile("fruit.jpg");
-
-    sf::Sprite snake(squareTex), fruit(fruitTex), background(backgroundTex);
-    snake.setPosition(0, 0);
-    fruit.setPosition(1000, 0);
-
-    srand(time(NULL));
-    randomX = 1 + rand() % (450);
-    randomY = 1 + rand() % (450);
-    for (int i = 0; i < 9; i++) {
-
-        if (randomX <= (i + 1) * 50 && randomX > i * 50) {
-            randomX = (i + 1) * 50;
-        }
-        if (randomY <= (i + 1) * 50 && randomY > i * 50) {
-            randomY = (i + 1) * 50;
-        }
+        section1.setSize(sf::Vector2f(20,20));
+        section2.setSize(sf::Vector2f(20,20));
+        section1.setFillColor(sf::Color::Green);
+        section2.setFillColor(sf::Color::Yellow);
+        section1.setPosition(startPosition1);
+        section2.setPosition(startPosition1.x+50,startPosition1.y+50);
     }
 
+    sf::Vector2f getPosition1()
+    {
+        return position1;
+    }
+    sf::Vector2f getPosition2()
+    {
+        return position2;
+    }
+    void setPosition1(sf::Vector2f newPosition)
+    {
+        position1=newPosition;
+    }
+    void setPosition2(sf::Vector2f newPosition)
+    {
+        position2=newPosition;
+    }
+    sf::RectangleShape getShape1()
+    {
+        return section1;
+    }
+    sf::RectangleShape getShape2()
+    {
+        return section2;
+    }
+    void upgrate()
+    {
+        section1.setPosition(position1);
+        //section2.setPosition(position2);
+    }
+};
 
-    while (window.isOpen()) {
-        while (window.pollEvent(event)) {
-            switch (event.type) {
-                case sf::Event::Closed:
-                    window.close();
-                    break;
+class Engine
+{
+    //sf::Vector2f resolution; be dard nemikhore
+    sf::RenderWindow snakeWindow;
+    vector<snakeSection>snake;
+    vector<snakeSection>snake2;
+public:
+    Engine()
+    {
+        newSnake();
+    }
+    void input(){
+        sf::Event event;
+        while (snakeWindow.pollEvent(event))
+        {
+            if(event.type==(sf::Event::Closed))
+            {
+                snakeWindow.close();
             }
-            if (event.type == sf::Event::KeyPressed) {
-                if (game == 1) {
-                    if (event.key.code == sf::Keyboard::Up && direction != 2) { direction = 3; }
-                    if (event.key.code == sf::Keyboard::Down && direction != 3) { direction = 2; }
-                    if (event.key.code == sf::Keyboard::Left && direction != 0) { direction = 1; }
-                    if (event.key.code == sf::Keyboard::Right && direction != 1) { direction = 0; }
-                }
-            }
-        }
-
-        if (game == 1) {
-            window.draw(background);
-
-            for (int i = sizeBodyOfSnake; i > 0; i--) {
-                p[i].x = p[i - 1].x;
-                p[i].y = p[i - 1].y;
-            }
-
-            if (direction == 0) { p[0].x += 50; }
-            if (direction == 1) { p[0].x -= 50; }
-            if (direction == 2) { p[0].y += 50; }
-            if (direction == 3) { p[0].y -= 50; }
-
-            if (p[0].x > 1000) { p[0].x = 0; }
-            if (p[0].x < 0) { p[0].x = 1000; }
-            if (p[0].y > 700) { p[0].y = 0; }
-            if (p[0].y < 0) { p[0].y = 700; }
-
-
-            if (p[0].x == fruit.getPosition().x && p[0].y == fruit.getPosition().y) {
-                sizeBodyOfSnake++;
-                good = true;
-                while (good) {
-                    randomX = 1 + rand() % (450);
-                    randomY = 1 + rand() % (450);
-                    for (int i = 0; i < 9; i++) {
-
-                        if (randomX <= (i + 1) * 50 && randomX > i * 50) {
-                            randomX = (i + 1) * 50;
-                        }
-                        if (randomY <= (i + 1) * 50 && randomY > i * 50) {
-                            randomY = (i + 1) * 50;
-                        }
-                        for (int i = 0; i < sizeBodyOfSnake; i++) {
-                            if (randomX == p[i].x && randomY == p[i].y) { break; }
-                            else if ((randomX != p[i].x || randomY != p[i].y) &&
-                                     i == sizeBodyOfSnake - 1) { good = false; }
-                        }
-                    }
-                }
-            }
-            fruit.setPosition(randomX, randomY);
-            window.draw(fruit);
-
-            for (int i = 0; i < sizeBodyOfSnake; i++) {
-                snake.setPosition(p[i].x, p[i].y);
-                window.draw(snake);
-            }
-            window.display();
-            sf::sleep(speed);
         }
     }
-}
+    void draw()
+    {
+        snakeWindow.clear(sf::Color::Black);
+        for(auto & s: snake)
+        {
+            snakeWindow.draw(s.getShape1());
+            //snakeWindow.draw(s.getShape2()); is true or not???
+        }
+        for(auto & s: snake2)
+        {
+            snakeWindow.draw(s.getShape2());
+        }
+        snakeWindow.display();
+    }
+    void run()
+    {
+        snakeWindow.create(sf::VideoMode(800,600),"main game");
+        snakeWindow.setFramerateLimit(60);
+        //Game loop. Runs and gets inputs until the window is closed.
+        while (snakeWindow.isOpen())
+        {
+            input();
+            draw();
+        }
+    }
+    void newSnake(/*sf:: Vector2f start*/)
+    {
+        snake.clear();
+        snake2.clear();
+        //snake.push_back(sf::Vector2f(start.x,start.y)); //TODO: khodesh az emplace_pack estefade karde.
+        snake.push_back(sf::Vector2f(100,100)); //TODO: khodesh az emplace_pack estefade karde.
+        snake.push_back(sf::Vector2f(80,100));
+        snake.push_back(sf::Vector2f(60,100));
+        snake2.push_back(sf::Vector2f(160,100));
+        snake2.push_back(sf::Vector2f(140,100));
+        snake2.push_back(sf::Vector2f(120,100));
+        //....
+
+    }
+    void addSnakeSection()
+    {
+        sf::Vector2f newSectionPosition = snake[snake.size() -1].getPosition1(); //-1 because index starts with 0
+        snake.push_back(newSectionPosition);
+    }
+};
+
+
 

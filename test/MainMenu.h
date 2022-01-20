@@ -12,7 +12,7 @@ class MainMenu {
 private:
     //item that u select in main menu
     int selectedItemIndex = 0;
-    sf::Font fontOfObtions;
+    sf::Font fontOfOptions;
 
     //array of text items included in the main menu refer to the define
     sf::Text menuText[Max_NUMBER_OF_ITEMS];

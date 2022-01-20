@@ -8,9 +8,10 @@
 using namespace std;
 
 bool musicFlag = 1;
-bool difficult_level=0;
+bool difficultyLevel=0;
 
 int main() {
+    Engine engine; //TODO: nemidoonam jash doroste ya na.
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(700, 800), "My window", sf::Style::Default, settings);
@@ -22,7 +23,6 @@ int main() {
 
     //we make it more dynamic in here instead of giving it the amount of 800 and 600 our selves
     MainMenu menuDisplay(window.getSize().x, window.getSize().y);
-
     // run the program as long as the window is open
     while (window.isOpen()) {
         // check all the window's events that were triggered since the last iteration of the loop
@@ -38,11 +38,10 @@ int main() {
                         case sf::Keyboard::Down:
                             menuDisplay.moveDown();
                             break;
-
                         case sf::Keyboard::Return:
                             switch (menuDisplay.getPressedItem()) {
                                 case 0:
-                                    snake(difficult_level);
+                                    engine.run();
                                     break;
 
                                 case 1:
@@ -57,12 +56,12 @@ int main() {
 
                                 case 2:
                                     //difficality easy
-                                    difficult_level=0;
+                                    difficultyLevel=0;
                                     break;
 
                                 case 3:
                                     //difficality hard
-                                    difficult_level=1;
+                                    difficultyLevel=1;
                                     break;
 
                                 case 4:
