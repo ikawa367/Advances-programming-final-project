@@ -5,6 +5,43 @@
 #include <deque>
 #include <thread>
 
+class Wall
+{
+    sf::RectangleShape wall1;
+    sf::RectangleShape wall2;
+public:
+    Wall()
+    {
+        wall1.setSize(sf::Vector2f(20,60));
+        wall1.setFillColor(sf::Color::Magenta);
+        wall2.setFillColor(sf::Color::Cyan);
+        wall2.setSize(sf::Vector2f(60,20));
+    }
+    void setWallPosition(sf:: Vector2f newPosition, bool firstOrSecond)
+    {
+        if(firstOrSecond == 0)
+        {
+            wall1.setPosition(newPosition);
+        }
+        else if(firstOrSecond ==1)
+        {
+            wall2.setPosition(newPosition);
+        }
+    }
+    sf::RectangleShape getWall(bool firstOrSecond)
+    {
+        if(firstOrSecond == 0)
+        {
+            return wall1;
+        }
+        else
+        {
+            return wall2;
+        }
+    }
+
+};
+
 class Apple {
     sf::RectangleShape sprite;
     sf::RectangleShape sprite2;
@@ -99,6 +136,9 @@ class Engine {
     deque<int> directionQueue2;
     sf::Vector2f appleLocation1;
     sf::Vector2f appleLocation2;
+    Wall wall;
+    sf::Vector2f wallLocation1;
+    sf::Vector2f wallLocation2;
     int speed;
     int sectionsToAdd1;
     int sectionsToAdd2;
@@ -378,6 +418,8 @@ public:
 
     void draw() {
         snakeWindow.clear(sf::Color::Black);
+        snakeWindow.draw(wall.getWall(0));
+        snakeWindow.draw(wall.getWall(1));
         snakeWindow.draw(apple.getSprite1());
         snakeWindow.draw(apple.getSprite2());
         for (auto &s: snake) {
@@ -454,9 +496,9 @@ public:
             appleLocation2.x = (rand() % 40) * 20;
             appleLocation2.y = (rand() % 30) * 20;
             for (auto &i: snake) {
-                if (i.getShape2().getGlobalBounds().intersects(
+                if (i.getShape1().getGlobalBounds().intersects(
                         sf::Rect<float>(appleLocation1.x, appleLocation1.y, 20, 20)) &&
-                    i.getShape2().getGlobalBounds().intersects(
+                    i.getShape1().getGlobalBounds().intersects(
                             sf::Rect<float>(appleLocation2.x, appleLocation2.y, 20, 20))) {
                     badLocation = true;
                     break;
