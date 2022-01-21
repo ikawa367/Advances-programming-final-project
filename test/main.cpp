@@ -4,7 +4,7 @@
 #include <SFML/Audio.hpp>
 #include"MainMenu.h"
 #include "SnakeFunc.h"
-
+#include "ClassApple.h"
 using namespace std;
 
 bool musicFlag = 1;
