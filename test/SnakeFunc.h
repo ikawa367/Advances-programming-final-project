@@ -122,7 +122,7 @@ public:
 
     void setSpeed(bool hard) {
         if (hard == true) {
-            speed = 8;
+            speed = 4;
         } else {
             speed = 2;
         }
@@ -322,7 +322,6 @@ public:
                 lastSectionPosition = thisSectionPosition;
             }
 
-
             //update snake tail position
             for (int i = 1; i < snake2.size(); i++) {
                 thisSectionPosition2 = snake2[i].getPosition2();
@@ -404,7 +403,7 @@ public:
             update();
             draw();
         }
-
+        restart();
     }
 
     void newSnake() {
@@ -465,5 +464,16 @@ public:
             }
         } while (badLocation);
         apple.setPosition(appleLocation2, 1);
+    }
+
+    void restart() {
+        snake1Direction = RIGHT;
+        snake2Direction = LEFT;
+        timeSinceLastMove = sf::Time::Zero;
+        directionQueue1.clear();
+        directionQueue2.clear();
+        newSnake();
+        moveApple1();
+        moveApple2();
     }
 };
