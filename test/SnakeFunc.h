@@ -5,37 +5,29 @@
 #include <deque>
 #include <thread>
 
-class Wall
-{
+class Wall {
     sf::RectangleShape wall1;
     sf::RectangleShape wall2;
 public:
-    Wall()
-    {
-        wall1.setSize(sf::Vector2f(20,60));
+    Wall() {
+        wall1.setSize(sf::Vector2f(20, 60));
         wall1.setFillColor(sf::Color::Magenta);
         wall2.setFillColor(sf::Color::Cyan);
-        wall2.setSize(sf::Vector2f(60,20));
+        wall2.setSize(sf::Vector2f(60, 20));
     }
-    void setWallPosition(sf:: Vector2f newPosition, bool firstOrSecond)
-    {
-        if(firstOrSecond == 0)
-        {
+
+    void setWallPosition(sf::Vector2f newPosition, bool firstOrSecond) {
+        if (firstOrSecond == 0) {
             wall1.setPosition(newPosition);
-        }
-        else if(firstOrSecond ==1)
-        {
+        } else if (firstOrSecond == 1) {
             wall2.setPosition(newPosition);
         }
     }
-    sf::RectangleShape getWall(bool firstOrSecond)
-    {
-        if(firstOrSecond == 0)
-        {
+
+    sf::RectangleShape getWall(bool firstOrSecond) {
+        if (firstOrSecond == 0) {
             return wall1;
-        }
-        else
-        {
+        } else {
             return wall2;
         }
     }
@@ -164,10 +156,10 @@ public:
         notif.openFromFile("notif.wav");
         bite.openFromFile("bite.wav");
         //notif.setLoopPoints(sf::Music::TimeSpan(sf::seconds(loopEnd - 8.0f), sf::seconds(8.0f)));
-        wallLocation1.x=(rand()%7)*20;
-        wallLocation2.x=(rand()%7)*20;
-        wallLocation1.y=(rand()%7)*20;
-        wallLocation2.y=(rand()%7)*20;
+        wallLocation1.x = (rand() % 7) * 20;
+        wallLocation2.x = (rand() % 7) * 20;
+        wallLocation1.y = (rand() % 7) * 20;
+        wallLocation2.y = (rand() % 7) * 20;
         sectionsToAdd1 = 0;
         sectionsToAdd2 = 0;
     }
@@ -438,11 +430,14 @@ public:
                     snakeWindow.close();
                 }
             }
-            if(snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation1.x,wallLocation1.y,20,60))||
-               snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation1.x,wallLocation1.y,20,60))||
-               snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20))||
-               snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20)))
-            {
+            if (snake[0].getShape1().getGlobalBounds().intersects(
+                    sf::Rect<float>(wallLocation1.x, wallLocation1.y, 20, 60)) ||
+                snake2[0].getShape2().getGlobalBounds().intersects(
+                        sf::Rect<float>(wallLocation1.x, wallLocation1.y, 20, 60)) ||
+                snake[0].getShape1().getGlobalBounds().intersects(
+                        sf::Rect<float>(wallLocation2.x, wallLocation2.y, 60, 20)) ||
+                snake2[0].getShape2().getGlobalBounds().intersects(
+                        sf::Rect<float>(wallLocation2.x, wallLocation2.y, 60, 20))) {
                 notif.stop();
                 notif.play();
                 restart();
@@ -455,8 +450,8 @@ public:
     void draw() {
         snakeWindow.clear(sf::Color::Black);
 
-        wall.setWallPosition(wallLocation1,0);
-        wall.setWallPosition(wallLocation2,1);
+        wall.setWallPosition(wallLocation1, 0);
+        wall.setWallPosition(wallLocation2, 1);
         snakeWindow.draw(wall.getWall(0));
         snakeWindow.draw(wall.getWall(1));
         snakeWindow.draw(apple.getSprite1());
@@ -490,12 +485,12 @@ public:
     void newSnake() {
         snake.clear();
         snake2.clear();
-        snake.push_back(sf::Vector2f(100, 100)); //TODO: khodesh az emplace_pack estefade karde.
-        snake.push_back(sf::Vector2f(80, 100));
-        snake.push_back(sf::Vector2f(60, 100));
-        snake2.push_back(sf::Vector2f(700, 100));
-        snake2.push_back(sf::Vector2f(720, 100));
-        snake2.push_back(sf::Vector2f(740, 100));
+        snake.push_back(sf::Vector2f(100, 500)); //TODO: khodesh az emplace_pack estefade karde.
+        snake.push_back(sf::Vector2f(80, 500));
+        snake.push_back(sf::Vector2f(60, 500));
+        snake2.push_back(sf::Vector2f(700, 500));
+        snake2.push_back(sf::Vector2f(720, 500));
+        snake2.push_back(sf::Vector2f(740, 500));
 
     }
 
@@ -559,17 +554,27 @@ public:
         apple.setPosition(appleLocation2, 1);
     }
 
-    void moveWall()
-    {
-        wallLocation1.x= (rand()%40)*20;
-        wallLocation1.y= (rand()%10)*20;
-        wallLocation2.x= (rand()%10)*20;
-        wallLocation2.y= (rand()%30)*20;
-        wall.setWallPosition(wallLocation1,0);
-        wall.setWallPosition(wallLocation2,1);
+    void moveWall() {
+        wallLocation1.x = (rand() % 40) * 20;
+        wallLocation1.y = (rand() % 10) * 20;
 
+        if ((wallLocation2.x = (rand() % 10) * 20 + 60 > 400 || (wallLocation2.x = (rand() % 10) * 20 + 60 < 0))) {
+            (wallLocation2.x = 400);
+            (wallLocation2.y = 500);
+        }
+        wallLocation2.x = (rand() % 10) * 20 + 60;
+
+
+        if ((wallLocation2.y = (rand() % 10) * 20 + 60 > 400 || (wallLocation2.y = (rand() % 10) * 20 + 60 < 0))) {
+            (wallLocation2.x = 400);
+            (wallLocation2.y = 450);
+        }
+        wallLocation2.y = (rand() % 30) * 20 + 60;
+
+        wall.setWallPosition(wallLocation1, 0);
+        wall.setWallPosition(wallLocation2, 1);
     }
-//this is a comment
+
     void restart() {
         snake1Direction = RIGHT;
         snake2Direction = LEFT;
