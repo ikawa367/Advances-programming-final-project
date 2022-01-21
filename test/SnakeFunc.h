@@ -521,6 +521,7 @@ public:
 
     void moveApple2() {
         bool badLocation = false;
+        std::cout << "  ";
         srand(time(0));
         do {
             appleLocation2.x = (rand() % 40) * 20;
@@ -548,7 +549,7 @@ public:
         wall.setWallPosition(wallLocation2,1);
 
     }
-
+//this is a comment
     void restart() {
         snake1Direction = RIGHT;
         snake2Direction = LEFT;
