@@ -433,7 +433,7 @@ public:
         srand(time(0));
         do {
             appleLocation1.x = (rand() % 40) * 20 - 20;
-            appleLocation1.y = (rand() % 30) * 20;
+            appleLocation1.y = (rand() % 30) * 20 - 20;
             for (auto &i: snake) {
                 if (i.getShape1().getGlobalBounds().intersects(
                         sf::Rect<float>(appleLocation1.x, appleLocation1.y, 20, 20)) &&
