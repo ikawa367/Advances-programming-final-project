@@ -416,22 +416,40 @@ public:
             if(snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) //only red apple works
             {
                 sectionsToAdd1 += 1;
-                moveApple1(); //TODO: we need another move apple for the second apple
+                moveApple1();
             }
             if(snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) //only red apple works
             {
                 sectionsToAdd2 += 1;
-                moveApple1(); //TODO: we need another move apple for the second apple
+                moveApple1();
             }
             if(snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) //only red apple works
             {
                 sectionsToAdd1 += 1;
-                moveApple2(); //TODO: we need another move apple for the second apple
+                moveApple2();
             }
             if(snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) //only red apple works
             {
                 sectionsToAdd2 += 1;
-                moveApple2(); //TODO: we need another move apple for the second apple
+                moveApple2();
+            }
+            for(int i=1;i<snake.size();i++)
+            {
+                if(snake[0].getShape1().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
+                snake2[0].getShape2().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
+                    snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds()))
+                {
+                    snakeWindow.close();
+                }
+            }
+            for(int i=1;i<snake2.size();i++)
+            {
+                if(snake2[0].getShape2().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
+                snake[0].getShape1().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
+                        snake[0].getShape1().getGlobalBounds().intersects(snake2[0].getShape2().getGlobalBounds()))
+                {
+                    snakeWindow.close();
+                }
             }
             timeSinceLastMove = sf::Time::Zero;
         }
