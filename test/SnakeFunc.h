@@ -521,7 +521,6 @@ public:
 
     void moveApple2() {
         bool badLocation = false;
-        std::cout << "  ";
         srand(time(0));
         do {
             appleLocation2.x = (rand() % 40) * 20;
