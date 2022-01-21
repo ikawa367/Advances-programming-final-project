@@ -156,10 +156,10 @@ public:
         newSnake();
         moveApple1();
         moveApple2();
-        wallLocation1.x=(rand()%3)*20;
-        wallLocation2.x=(rand()%3)*20;
-        wallLocation1.y=(rand()%3)*20;
-        wallLocation2.y=(rand()%3)*20;
+        wallLocation1.x=(rand()%7)*20;
+        wallLocation2.x=(rand()%7)*20;
+        wallLocation1.y=(rand()%7)*20;
+        wallLocation2.y=(rand()%7)*20;
         sectionsToAdd1 = 0;
         sectionsToAdd2 = 0;
     }
@@ -422,6 +422,8 @@ public:
 
     void draw() {
         snakeWindow.clear(sf::Color::Black);
+        wall.setWallPosition(wallLocation1,0);
+        wall.setWallPosition(wallLocation2,1);
         snakeWindow.draw(wall.getWall(0));
         snakeWindow.draw(wall.getWall(1));
         snakeWindow.draw(apple.getSprite1());
@@ -512,6 +514,17 @@ public:
         apple.setPosition(appleLocation2, 1);
     }
 
+    void moveWall()
+    {
+        wallLocation1.x= (rand()%10)*20;
+        wallLocation1.y= (rand()%10)*20;
+        wallLocation2.x= (rand()%10)*20;
+        wallLocation2.y= (rand()%10)*20;
+        wall.setWallPosition(wallLocation1,0);
+        wall.setWallPosition(wallLocation2,1);
+
+    }
+
     void restart() {
         snake1Direction = RIGHT;
         snake2Direction = LEFT;
@@ -519,6 +532,7 @@ public:
         directionQueue1.clear();
         directionQueue2.clear();
         newSnake();
+        moveWall();
         moveApple1();
         moveApple2();
     }
