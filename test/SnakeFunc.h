@@ -1,44 +1,55 @@
 #include <iostream>
+#include <stdlib.h>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include<vector>
 #include <deque>
 #include <thread>
 
-class Wall {
+class Wall
+{
     sf::RectangleShape wall1;
     sf::RectangleShape wall2;
 public:
-    Wall() {
+    Wall()
+    {
         wall1.setSize(sf::Vector2f(20, 60));
         wall1.setFillColor(sf::Color::Magenta);
         wall2.setFillColor(sf::Color::Cyan);
         wall2.setSize(sf::Vector2f(60, 20));
     }
 
-    void setWallPosition(sf::Vector2f newPosition, bool firstOrSecond) {
-        if (firstOrSecond == 0) {
+    void setWallPosition(sf::Vector2f newPosition, bool firstOrSecond)
+    {
+        if (firstOrSecond == 0)
+        {
             wall1.setPosition(newPosition);
-        } else if (firstOrSecond == 1) {
+        } else if (firstOrSecond == 1)
+        {
             wall2.setPosition(newPosition);
         }
     }
 
-    sf::RectangleShape getWall(bool firstOrSecond) {
-        if (firstOrSecond == 0) {
+    sf::RectangleShape getWall(bool firstOrSecond)
+    {
+        if (firstOrSecond == 0)
+        {
             return wall1;
-        } else {
+        } else
+        {
             return wall2;
         }
     }
 
 };
 
-class Apple {
+class Apple
+{
     sf::RectangleShape sprite;
     sf::RectangleShape sprite2;
 public:
-    Apple() {
+    Apple()
+    {
         sf::Vector2f startPosition1(400, 400);
         sf::Vector2f startPosition2(300, 500);
         sprite.setSize(sf::Vector2f(20, 20));
@@ -49,31 +60,38 @@ public:
         sprite2.setPosition(startPosition2);
     }
 
-    void setPosition(sf::Vector2f newPosition, bool firstOrsecond) {
-        if (firstOrsecond == 0) {
+    void setPosition(sf::Vector2f newPosition, bool firstOrsecond)
+    {
+        if (firstOrsecond == 0)
+        {
             sprite.setPosition(newPosition);
-        } else {
+        } else
+        {
             sprite2.setPosition(newPosition);
         }
     }
 
     //draw function needs getSprite.
-    sf::RectangleShape getSprite1() {
+    sf::RectangleShape getSprite1()
+    {
         return sprite;
     }
 
-    sf::RectangleShape getSprite2() {
+    sf::RectangleShape getSprite2()
+    {
         return sprite2;
     }
 };
 
-class snakeSection {
+class snakeSection
+{
     sf::Vector2f position1;
     sf::Vector2f position2;
     sf::RectangleShape section1;
     sf::RectangleShape section2;
 public:
-    snakeSection(sf::Vector2f startPosition1) {
+    snakeSection(sf::Vector2f startPosition1)
+    {
         sf::Vector2f startPosition2;
         startPosition2.x = startPosition1.x;
         startPosition2.y = startPosition1.y;
@@ -87,37 +105,45 @@ public:
         position2 = startPosition2;
     }
 
-    sf::Vector2f getPosition1() {
+    sf::Vector2f getPosition1()
+    {
         return position1;
     }
 
-    sf::Vector2f getPosition2() {
+    sf::Vector2f getPosition2()
+    {
         return position2;
     }
 
-    void setPosition1(sf::Vector2f newPosition) {
+    void setPosition1(sf::Vector2f newPosition)
+    {
         position1 = newPosition;
     }
 
-    void setPosition2(sf::Vector2f newPosition) {
+    void setPosition2(sf::Vector2f newPosition)
+    {
         position2 = newPosition;
     }
 
-    sf::RectangleShape getShape1() {
+    sf::RectangleShape getShape1()
+    {
         return section1;
     }
 
-    sf::RectangleShape getShape2() {
+    sf::RectangleShape getShape2()
+    {
         return section2;
     }
 
-    void update() {
+    void update()
+    {
         section1.setPosition(position1);
         section2.setPosition(position2); //TODO: dangerous
     }
 };
 
-class Engine {
+class Engine
+{
     sf::RenderWindow snakeWindow;
     vector<snakeSection> snake;
     vector<snakeSection> snake2;
@@ -141,11 +167,13 @@ class Engine {
 
     sf::Time timeSinceLastMove;
 public:
-    enum direction {
+    enum direction
+    {
         UP, RIGHT, DOWN, LEFT
     };
 
-    Engine() {
+    Engine()
+    {
         snake1Direction = direction::RIGHT;
         snake2Direction = direction::LEFT;
         timeSinceLastMove = sf::Time::Zero;
@@ -156,44 +184,60 @@ public:
         notif.openFromFile("notif.wav");
         bite.openFromFile("bite.wav");
         //notif.setLoopPoints(sf::Music::TimeSpan(sf::seconds(loopEnd - 8.0f), sf::seconds(8.0f)));
-        wallLocation1.x = (rand() % 7) * 20;
-        wallLocation2.x = (rand() % 7) * 20;
-        wallLocation1.y = (rand() % 7) * 20;
-        wallLocation2.y = (rand() % 7) * 20;
+//        wallLocation1.x = (rand() % 40) * 20;
+//        wallLocation2.x = (rand() % 10) * 20;
+//        wallLocation1.y = (rand() % 10) * 20;
+//        wallLocation2.y = (rand() % 40) * 20;
+        moveWall();
         sectionsToAdd1 = 0;
         sectionsToAdd2 = 0;
     }
 
-    void setSpeed(bool hard) {
-        if (hard == true) {
+    void setSpeed(bool hard)
+    {
+        if (hard == true)
+        {
             speed = 4;
-        } else {
+        } else
+        {
             speed = 2;
         }
     }
 
-    void input() {
+    void input()
+    {
         sf::Event event;
-        while (snakeWindow.pollEvent(event)) {
-            if (event.type == (sf::Event::Closed)) {
+        while (snakeWindow.pollEvent(event))
+        {
+            if (event.type == (sf::Event::Closed))
+            {
                 snakeWindow.close();
             }
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Up) {
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Up)
+                {
                     addDirection1(direction::UP);
-                } else if (event.key.code == sf::Keyboard::Down) {
+                } else if (event.key.code == sf::Keyboard::Down)
+                {
                     addDirection1(direction::DOWN);
-                } else if (event.key.code == sf::Keyboard::Right) {
+                } else if (event.key.code == sf::Keyboard::Right)
+                {
                     addDirection1(direction::RIGHT);
-                } else if (event.key.code == sf::Keyboard::Left) {
+                } else if (event.key.code == sf::Keyboard::Left)
+                {
                     addDirection1(direction::LEFT);
-                } else if (event.key.code == sf::Keyboard::W) {
+                } else if (event.key.code == sf::Keyboard::W)
+                {
                     addDirection2(direction::UP);
-                } else if (event.key.code == sf::Keyboard::S) {
+                } else if (event.key.code == sf::Keyboard::S)
+                {
                     addDirection2(direction::DOWN);
-                } else if (event.key.code == sf::Keyboard::D) {
+                } else if (event.key.code == sf::Keyboard::D)
+                {
                     addDirection2(direction::RIGHT);
-                } else if (event.key.code == sf::Keyboard::A) {
+                } else if (event.key.code == sf::Keyboard::A)
+                {
                     addDirection2(direction::LEFT);
 
                 }
@@ -201,52 +245,68 @@ public:
         }
     }
 
-    void addDirection1(int newDirection) {
-        if (directionQueue1.empty()) {
+    void addDirection1(int newDirection)
+    {
+        if (directionQueue1.empty())
+        {
             directionQueue1.push_back(newDirection);
-        } else if (!directionQueue1.empty()) {
-            if (directionQueue1.back() != newDirection) {
+        } else if (!directionQueue1.empty())
+        {
+            if (directionQueue1.back() != newDirection)
+            {
                 directionQueue1.push_back(newDirection);
             }
         }
     }
 
-    void addDirection2(int newDirection2) {
-        if (directionQueue2.empty()) {
+    void addDirection2(int newDirection2)
+    {
+        if (directionQueue2.empty())
+        {
             directionQueue2.push_back(newDirection2);
-        } else if (!directionQueue2.empty()) {
-            if (directionQueue2.back() != newDirection2) {
+        } else if (!directionQueue2.empty())
+        {
+            if (directionQueue2.back() != newDirection2)
+            {
                 directionQueue2.push_back(newDirection2);
             }
         }
     }
 
-    void update() {
-        if (timeSinceLastMove.asSeconds() >= sf::seconds(1.f / float(speed)).asSeconds()) {
+    void update()
+    {
+        if (timeSinceLastMove.asSeconds() >= sf::seconds(1.f / float(speed)).asSeconds())
+        {
             sf::Vector2f thisSectionPosition = snake[0].getPosition1();
             sf::Vector2f thisSectionPosition2 = snake2[0].getPosition2(); //TODO: or getposition1?
             sf::Vector2f lastSectionPosition = thisSectionPosition;
             sf::Vector2f lastSectionPosition2 = thisSectionPosition2;
 
-            if (!directionQueue1.empty()) {
-                switch (snake1Direction) {
+            if (!directionQueue1.empty())
+            {
+                switch (snake1Direction)
+                {
                     case direction::UP:
-                        if (directionQueue1.front() != direction::DOWN) {
+                        if (directionQueue1.front() != direction::DOWN)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
                     case direction::DOWN:
-                        if (directionQueue1.front() != direction::UP) {
+                        if (directionQueue1.front() != direction::UP)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
                     case direction::LEFT:
-                        if (directionQueue1.front() != direction::RIGHT) {
+                        if (directionQueue1.front() != direction::RIGHT)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
                     case direction::RIGHT:
-                        if (directionQueue1.front() != direction::LEFT) {
+                        if (directionQueue1.front() != direction::LEFT)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
@@ -254,25 +314,31 @@ public:
                 directionQueue1.pop_front();
             }
 
-            if (!directionQueue2.empty()) {
-                switch (snake2Direction) {
+            if (!directionQueue2.empty())
+            {
+                switch (snake2Direction)
+                {
                     case direction::UP:
-                        if (directionQueue2.front() != direction::DOWN) {
+                        if (directionQueue2.front() != direction::DOWN)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
                     case direction::DOWN:
-                        if (directionQueue2.front() != direction::UP) {
+                        if (directionQueue2.front() != direction::UP)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
                     case direction::LEFT:
-                        if (directionQueue2.front() != direction::RIGHT) {
+                        if (directionQueue2.front() != direction::RIGHT)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
                     case direction::RIGHT:
-                        if (directionQueue2.front() != direction::LEFT) {
+                        if (directionQueue2.front() != direction::LEFT)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
@@ -280,19 +346,23 @@ public:
                 directionQueue2.pop_front();
             }
 
-            if (sectionsToAdd1) {
+            if (sectionsToAdd1)
+            {
                 addSnakeSection1();
                 sectionsToAdd1--;
             }
-            if (sectionsToAdd2) {
+            if (sectionsToAdd2)
+            {
                 addSnakeSection2();
                 sectionsToAdd2--;
             }
 
             //update snakes head position
-            switch (snake1Direction) {
+            switch (snake1Direction)
+            {
                 case direction::RIGHT:
-                    if (thisSectionPosition.x > 800) {
+                    if (thisSectionPosition.x > 800)
+                    {
                         thisSectionPosition.x = -20;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x, thisSectionPosition.y));
                     }
@@ -300,7 +370,8 @@ public:
                     break;
 
                 case direction::DOWN:
-                    if (thisSectionPosition.y > 600) {
+                    if (thisSectionPosition.y > 600)
+                    {
                         thisSectionPosition.y = -20;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x, thisSectionPosition.y + 20));
                     }
@@ -308,7 +379,8 @@ public:
                     break;
 
                 case direction::LEFT:
-                    if (thisSectionPosition.x - 20 < 0) {
+                    if (thisSectionPosition.x - 20 < 0)
+                    {
                         thisSectionPosition.x = 800;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x - 20, thisSectionPosition.y));
                     }
@@ -316,7 +388,8 @@ public:
                     break;
 
                 case direction::UP:
-                    if (thisSectionPosition.y - 20 < 0) {
+                    if (thisSectionPosition.y - 20 < 0)
+                    {
                         thisSectionPosition.y = 600;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x, thisSectionPosition.y - 20));
                     }
@@ -325,9 +398,11 @@ public:
             }
 
             //update snakes head position
-            switch (snake2Direction) {
+            switch (snake2Direction)
+            {
                 case direction::RIGHT:
-                    if (thisSectionPosition2.x > 800) {
+                    if (thisSectionPosition2.x > 800)
+                    {
                         thisSectionPosition2.x = -20;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x + 20, thisSectionPosition2.y));
                     }
@@ -335,7 +410,8 @@ public:
                     break;
 
                 case direction::DOWN:
-                    if (thisSectionPosition2.y > 600) {
+                    if (thisSectionPosition2.y > 600)
+                    {
                         thisSectionPosition2.y = -20;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x, thisSectionPosition2.y + 20));
                     }
@@ -343,7 +419,8 @@ public:
                     break;
 
                 case direction::LEFT:
-                    if (thisSectionPosition2.x - 20 < 0) {
+                    if (thisSectionPosition2.x - 20 < 0)
+                    {
                         thisSectionPosition2.x = 800;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x - 20, thisSectionPosition2.y));
                     }
@@ -351,7 +428,8 @@ public:
                     break;
 
                 case direction::UP:
-                    if (thisSectionPosition2.y - 20 < 0) {
+                    if (thisSectionPosition2.y - 20 < 0)
+                    {
                         thisSectionPosition2.y = 600;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x, thisSectionPosition2.y - 20));
                     }
@@ -360,70 +438,82 @@ public:
             }
 
             //update snake tail position
-            for (int i = 1; i < snake.size(); i++) {
+            for (int i = 1; i < snake.size(); i++)
+            {
                 thisSectionPosition = snake[i].getPosition1();
                 snake[i].setPosition1(lastSectionPosition);
                 lastSectionPosition = thisSectionPosition;
             }
 
             //update snake tail position
-            for (int i = 1; i < snake2.size(); i++) {
+            for (int i = 1; i < snake2.size(); i++)
+            {
                 thisSectionPosition2 = snake2[i].getPosition2();
                 snake2[i].setPosition2(lastSectionPosition2);
                 lastSectionPosition2 = thisSectionPosition2;
             }
 
-            for (auto &i: snake) {
+            for (auto &i: snake)
+            {
                 i.update();
             }
-            for (auto &i: snake2) {
+            for (auto &i: snake2)
+            {
                 i.update();
             }
 
             timeSinceLastMove = sf::Time::Zero;
 
-            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
+            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds()))
+            {
                 bite.stop();
                 bite.play();
                 sectionsToAdd1 += 2;
                 speed += 1;
                 moveApple1();
             }
-            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
+            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds()))
+            {
                 bite.stop();
                 bite.play();
                 sectionsToAdd2 += 2;
                 speed += 1;
                 moveApple1();
             }
-            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
+            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds()))
+            {
                 bite.stop();
                 bite.play();
                 sectionsToAdd1 += 2;
                 speed += 1;
                 moveApple2();
             }
-            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
+            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds()))
+            {
                 bite.stop();
                 bite.play();
                 sectionsToAdd2 += 2;
                 speed += 1;
                 moveApple2();
             }
-            for (int i = 1; i < snake.size(); i++) {
+            for (int i = 1; i < snake.size(); i++)
+            {
                 if (snake[0].getShape1().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
                     snake2[0].getShape2().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
-                    snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds())) {
+                    snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds()))
+                {
                     notif.stop();
                     notif.play();
                     restart();
                     snakeWindow.close();
                 }
             }
-            for (int i = 1; i < snake2.size(); i++) {
+            for (int i = 1; i < snake2.size(); i++)
+            {
                 if (snake2[0].getShape2().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
                     snake[0].getShape1().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
-                    snake[0].getShape1().getGlobalBounds().intersects(snake2[0].getShape2().getGlobalBounds())) {
+                    snake[0].getShape1().getGlobalBounds().intersects(snake2[0].getShape2().getGlobalBounds()))
+                {
                     notif.stop();
                     notif.play();
                     restart();
@@ -437,7 +527,8 @@ public:
                 snake[0].getShape1().getGlobalBounds().intersects(
                         sf::Rect<float>(wallLocation2.x, wallLocation2.y, 60, 20)) ||
                 snake2[0].getShape2().getGlobalBounds().intersects(
-                        sf::Rect<float>(wallLocation2.x, wallLocation2.y, 60, 20))) {
+                        sf::Rect<float>(wallLocation2.x, wallLocation2.y, 60, 20)))
+            {
                 notif.stop();
                 notif.play();
                 restart();
@@ -447,7 +538,8 @@ public:
         }
     }
 
-    void draw() {
+    void draw()
+    {
         snakeWindow.clear(sf::Color::Black);
 
         wall.setWallPosition(wallLocation1, 0);
@@ -456,23 +548,28 @@ public:
         snakeWindow.draw(wall.getWall(1));
         snakeWindow.draw(apple.getSprite1());
         snakeWindow.draw(apple.getSprite2());
-        for (auto &s: snake) {
-            for (auto &s: snake) {
+        for (auto &s: snake)
+        {
+            for (auto &s: snake)
+            {
                 snakeWindow.draw(s.getShape1());
             }
-            for (auto &s: snake2) {
+            for (auto &s: snake2)
+            {
                 snakeWindow.draw(s.getShape2());
             }
             snakeWindow.display();
         }
     }
 
-    void run() {
+    void run()
+    {
         sf::Clock clock;
         snakeWindow.create(sf::VideoMode(800, 600), "main game");
         snakeWindow.setFramerateLimit(60);
         //Game loop. Runs and gets inputs until the window is closed.
-        while (snakeWindow.isOpen()) {
+        while (snakeWindow.isOpen())
+        {
             sf::Time dt = clock.restart();
             timeSinceLastMove += dt;
             input();
@@ -482,7 +579,8 @@ public:
         restart();
     }
 
-    void newSnake() {
+    void newSnake()
+    {
         snake.clear();
         snake2.clear();
         snake.push_back(sf::Vector2f(100, 500)); //TODO: khodesh az emplace_pack estefade karde.
@@ -494,39 +592,47 @@ public:
 
     }
 
-    void addSnakeSection1() {
+    void addSnakeSection1()
+    {
         sf::Vector2f newSectionPosition = snake[snake.size() - 1].getPosition1(); //-1 because index starts with 0
         snake.push_back(newSectionPosition);
     }
 
-    void addSnakeSection2() {
+    void addSnakeSection2()
+    {
         sf::Vector2f newSectionPosition = snake2[snake2.size() - 1].getPosition2(); //-1 because index starts with 0
         snake2.push_back(newSectionPosition);
     }
 
-    void moveApple1() {
+    void moveApple1()
+    {
         bool badLocation = false;
         srand(time(0));
-        do {
+        do
+        {
             if ((appleLocation1.x = (rand() % 40) * 20 + 100) > 400 ||
-                (appleLocation1.x = (rand() % 40) * 20 + 100) < 0) {
+                (appleLocation1.x = (rand() % 40) * 20 + 100) < 0)
+            {
                 (appleLocation1.x = 100);
                 (appleLocation1.y = 300);
             }
             appleLocation1.x = (rand() % 40) * 20;
 
             if ((appleLocation1.y = (rand() % 30) * 20 + 100) > 400 ||
-                (appleLocation1.y = (rand() % 30) * 20 + 100) < 0) {
+                (appleLocation1.y = (rand() % 30) * 20 + 100) < 0)
+            {
                 (appleLocation1.y = 300);
                 (appleLocation1.x = 100);
             }
             appleLocation1.y = (rand() % 30) * 20;
 
-            for (auto &i: snake) {
+            for (auto &i: snake)
+            {
                 if (i.getShape1().getGlobalBounds().intersects(
                         sf::Rect<float>(appleLocation1.x, appleLocation1.y, 20, 20)) &&
                     i.getShape1().getGlobalBounds().intersects(
-                            sf::Rect<float>(appleLocation2.x, appleLocation2.y, 20, 20))) {
+                            sf::Rect<float>(appleLocation2.x, appleLocation2.y, 20, 20)))
+                {
                     badLocation = true;
                     break;
                 }
@@ -535,17 +641,21 @@ public:
         apple.setPosition(appleLocation1, 0);
     }
 
-    void moveApple2() {
+    void moveApple2()
+    {
         bool badLocation = false;
         srand(time(0));
-        do {
+        do
+        {
             appleLocation2.x = (rand() % 40) * 20;
             appleLocation2.y = (rand() % 30) * 20;
-            for (auto &i: snake) {
+            for (auto &i: snake)
+            {
                 if (i.getShape2().getGlobalBounds().intersects(
                         sf::Rect<float>(appleLocation1.x, appleLocation1.y, 20, 20)) &&
                     i.getShape2().getGlobalBounds().intersects(
-                            sf::Rect<float>(appleLocation2.x, appleLocation2.y, 20, 20))) {
+                            sf::Rect<float>(appleLocation2.x, appleLocation2.y, 20, 20)))
+                {
                     badLocation = true;
                     break;
                 }
@@ -554,28 +664,29 @@ public:
         apple.setPosition(appleLocation2, 1);
     }
 
-    void moveWall() {
-        wallLocation1.x = (rand() % 40) * 20;
-        wallLocation1.y = (rand() % 10) * 20;
-
-        if ((wallLocation2.x = (rand() % 10) * 20 + 60 > 400 || (wallLocation2.x = (rand() % 10) * 20 + 60 < 0))) {
-            (wallLocation2.x = 400);
-            (wallLocation2.y = 500);
+    void moveWall()
+    {
+        while (1)
+        {
+            wallLocation1.x = (rand() % 40) * 20;
+            wallLocation1.y = (rand() % 10) * 20;
+            wallLocation2.x = (rand() % 10) * 20;
+            wallLocation2.y = (rand() % 40) * 20;
+            if (std::abs(wallLocation1.x - wallLocation2.x) > 3 && std::abs(wallLocation1.y - wallLocation2.y) > 3 &&
+                abs(appleLocation1.x - wallLocation1.x) > 0 && abs(appleLocation2.x - wallLocation2.x) > 0 &&
+                abs(appleLocation1.x - wallLocation2.x) > 0 && abs(appleLocation1.x - wallLocation2.x) &&
+                wallLocation1.x < 600 && wallLocation1.y < 600 && wallLocation2.x < 600 && wallLocation2.y < 600)
+            {
+                break;
+            }
         }
-        wallLocation2.x = (rand() % 10) * 20 + 60;
-
-
-        if ((wallLocation2.y = (rand() % 10) * 20 + 60 > 400 || (wallLocation2.y = (rand() % 10) * 20 + 60 < 0))) {
-            (wallLocation2.x = 400);
-            (wallLocation2.y = 450);
-        }
-        wallLocation2.y = (rand() % 30) * 20 + 60;
 
         wall.setWallPosition(wallLocation1, 0);
         wall.setWallPosition(wallLocation2, 1);
     }
 
-    void restart() {
+    void restart()
+    {
         snake1Direction = RIGHT;
         snake2Direction = LEFT;
         timeSinceLastMove = sf::Time::Zero;
