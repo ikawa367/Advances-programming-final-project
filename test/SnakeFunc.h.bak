@@ -126,6 +126,7 @@ public:
 };
 
 class Engine {
+    //sf::Vector2f resolution; be dard nemikhore
     sf::RenderWindow snakeWindow;
     vector<snakeSection> snake;
     vector<snakeSection> snake2;
@@ -138,12 +139,10 @@ class Engine {
     Wall wall;
     sf::Vector2f wallLocation1;
     sf::Vector2f wallLocation2;
-
     int speed;
     int sectionsToAdd1;
     int sectionsToAdd2;
     Apple apple;
-
     sf::Time timeSinceLastMove;
 public:
     enum direction {
@@ -420,9 +419,9 @@ public:
                 }
             }
             if(snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation1.x,wallLocation1.y,20,60))||
-               snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation1.x,wallLocation1.y,20,60))||
-               snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20))||
-               snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20)))
+                    snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation1.x,wallLocation1.y,20,60))||
+                    snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20))||
+                    snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20)))
             {
                 restart();
                 snakeWindow.close();
@@ -433,7 +432,6 @@ public:
 
     void draw() {
         snakeWindow.clear(sf::Color::Black);
-
         wall.setWallPosition(wallLocation1,0);
         wall.setWallPosition(wallLocation2,1);
         snakeWindow.draw(wall.getWall(0));
@@ -492,20 +490,8 @@ public:
         bool badLocation = false;
         srand(time(0));
         do {
-            if ((appleLocation1.x = (rand() % 40) * 20 + 100) > 400 ||
-                (appleLocation1.x = (rand() % 40) * 20 + 100) < 0) {
-                (appleLocation1.x = 100);
-                (appleLocation1.y = 300);
-            }
-            appleLocation1.x = (rand() % 40) * 20;
-
-            if ((appleLocation1.y = (rand() % 30) * 20 + 100) > 400 ||
-                (appleLocation1.y = (rand() % 30) * 20 + 100) < 0) {
-                (appleLocation1.y = 300);
-                (appleLocation1.x = 100);
-            }
-            appleLocation1.y = (rand() % 30) * 20;
-
+            appleLocation1.x = (rand() % 40) * 20 - 20;
+            appleLocation1.y = (rand() % 30) * 20 - 20;
             for (auto &i: snake) {
                 if (i.getShape1().getGlobalBounds().intersects(
                         sf::Rect<float>(appleLocation1.x, appleLocation1.y, 20, 20)) &&
@@ -526,9 +512,9 @@ public:
             appleLocation2.x = (rand() % 40) * 20;
             appleLocation2.y = (rand() % 30) * 20;
             for (auto &i: snake) {
-                if (i.getShape2().getGlobalBounds().intersects(
+                if (i.getShape1().getGlobalBounds().intersects(
                         sf::Rect<float>(appleLocation1.x, appleLocation1.y, 20, 20)) &&
-                    i.getShape2().getGlobalBounds().intersects(
+                    i.getShape1().getGlobalBounds().intersects(
                             sf::Rect<float>(appleLocation2.x, appleLocation2.y, 20, 20))) {
                     badLocation = true;
                     break;
