@@ -5,6 +5,42 @@
 #include <deque>
 #include <thread>
 
+class Wall
+{
+    sf::RectangleShape wall1;
+    sf::RectangleShape wall2;
+public:
+    Wall()
+    {
+        wall1.setSize(sf::Vector2f(20,60));
+        wall1.setFillColor(sf::Color::Magenta);
+        wall2.setFillColor(sf::Color::Cyan);
+        wall2.setSize(sf::Vector2f(60,20));
+    }
+    void setWallPosition(sf:: Vector2f newPosition, bool firstOrSecond)
+    {
+        if(firstOrSecond == 0)
+        {
+            wall1.setPosition(newPosition);
+        }
+        else if(firstOrSecond ==1)
+        {
+            wall2.setPosition(newPosition);
+        }
+    }
+    sf::RectangleShape getWall(bool firstOrSecond)
+    {
+        if(firstOrSecond == 0)
+        {
+            return wall1;
+        }
+        else
+        {
+            return wall2;
+        }
+    }
+
+};
 
 class Apple {
     sf::RectangleShape sprite;
@@ -99,7 +135,7 @@ class Engine {
     deque<int> directionQueue2;
     sf::Vector2f appleLocation1;
     sf::Vector2f appleLocation2;
-
+    Wall wall;
     sf::Vector2f wallLocation1;
     sf::Vector2f wallLocation2;
 
@@ -121,6 +157,10 @@ public:
         newSnake();
         moveApple1();
         moveApple2();
+        wallLocation1.x=(rand()%7)*20;
+        wallLocation2.x=(rand()%7)*20;
+        wallLocation1.y=(rand()%7)*20;
+        wallLocation2.y=(rand()%7)*20;
         sectionsToAdd1 = 0;
         sectionsToAdd2 = 0;
     }
@@ -367,6 +407,7 @@ public:
                 if (snake[0].getShape1().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
                     snake2[0].getShape2().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
                     snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds())) {
+                    restart();
                     snakeWindow.close();
                 }
             }
@@ -374,8 +415,17 @@ public:
                 if (snake2[0].getShape2().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
                     snake[0].getShape1().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
                     snake[0].getShape1().getGlobalBounds().intersects(snake2[0].getShape2().getGlobalBounds())) {
+                    restart();
                     snakeWindow.close();
                 }
+            }
+            if(snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation1.x,wallLocation1.y,20,60))||
+               snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation1.x,wallLocation1.y,20,60))||
+               snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20))||
+               snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20)))
+            {
+                restart();
+                snakeWindow.close();
             }
             timeSinceLastMove = sf::Time::Zero;
         }
@@ -384,6 +434,10 @@ public:
     void draw() {
         snakeWindow.clear(sf::Color::Black);
 
+        wall.setWallPosition(wallLocation1,0);
+        wall.setWallPosition(wallLocation2,1);
+        snakeWindow.draw(wall.getWall(0));
+        snakeWindow.draw(wall.getWall(1));
         snakeWindow.draw(apple.getSprite1());
         snakeWindow.draw(apple.getSprite2());
         for (auto &s: snake) {
@@ -484,6 +538,16 @@ public:
         apple.setPosition(appleLocation2, 1);
     }
 
+    void moveWall()
+    {
+        wallLocation1.x= (rand()%40)*20;
+        wallLocation1.y= (rand()%10)*20;
+        wallLocation2.x= (rand()%10)*20;
+        wallLocation2.y= (rand()%30)*20;
+        wall.setWallPosition(wallLocation1,0);
+        wall.setWallPosition(wallLocation2,1);
+
+    }
 
     void restart() {
         snake1Direction = RIGHT;
@@ -492,6 +556,7 @@ public:
         directionQueue1.clear();
         directionQueue2.clear();
         newSnake();
+        moveWall();
         moveApple1();
         moveApple2();
     }
