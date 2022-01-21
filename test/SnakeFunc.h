@@ -24,10 +24,16 @@ public:
         sprite2.setPosition(startPosition2);
     }
 
-    void setPosition(sf::Vector2f newPosition1, sf::Vector2f newPosition2)
+    void setPosition(sf::Vector2f newPosition, bool firstOrsecond)
     {
-        sprite.setPosition(newPosition1);
-        sprite2.setPosition(newPosition2);
+        if(firstOrsecond == 0)
+        {
+            sprite.setPosition(newPosition);
+        }
+        else
+        {
+            sprite2.setPosition(newPosition);
+        }
     }
 
     //draw function needs getSprite.
@@ -111,8 +117,11 @@ class Engine
     int snake2Direction;
     deque<int> directionQueue1;
     deque<int> directionQueue2;
+    sf::Vector2f appleLocation1;
+    sf::Vector2f appleLocation2;
     int speed;
-    int sectionsToAdd;
+    int sectionsToAdd1;
+    int sectionsToAdd2;
     Apple apple;
     sf::Time timeSinceLastMove;
 public:
@@ -127,8 +136,10 @@ public:
         snake2Direction = direction::LEFT;
         timeSinceLastMove = sf::Time::Zero;
         newSnake();
-        moveApple();
-        sectionsToAdd = 0;
+        moveApple1();
+        moveApple2();
+        sectionsToAdd1 = 0;
+        sectionsToAdd2 = 0;
     }
 
     void setSpeed(bool hard)
@@ -284,10 +295,15 @@ public:
                 directionQueue2.pop_front();
             }
 
-            if(sectionsToAdd)
+            if(sectionsToAdd1)
             {
-                addSnakeSection(); // TODO: check for the second snake
-                sectionsToAdd--;
+                addSnakeSection1();
+                sectionsToAdd1--;
+            }
+            if(sectionsToAdd2)
+            {
+                addSnakeSection2();
+                sectionsToAdd2--;
             }
 
             //update snakes head position
@@ -399,8 +415,23 @@ public:
 
             if(snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) //only red apple works
             {
-                sectionsToAdd += 1;
-                moveApple(); //TODO: we need another move apple for the second apple
+                sectionsToAdd1 += 1;
+                moveApple1(); //TODO: we need another move apple for the second apple
+            }
+            if(snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) //only red apple works
+            {
+                sectionsToAdd2 += 1;
+                moveApple1(); //TODO: we need another move apple for the second apple
+            }
+            if(snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) //only red apple works
+            {
+                sectionsToAdd1 += 1;
+                moveApple2(); //TODO: we need another move apple for the second apple
+            }
+            if(snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) //only red apple works
+            {
+                sectionsToAdd2 += 1;
+                moveApple2(); //TODO: we need another move apple for the second apple
             }
             timeSinceLastMove = sf::Time::Zero;
         }
@@ -453,24 +484,48 @@ public:
         snake2.push_back(sf::Vector2f(740, 100));
     }
 
-    void addSnakeSection()
+    void addSnakeSection1()
     {
         sf::Vector2f newSectionPosition = snake[snake.size() - 1].getPosition1(); //-1 because index starts with 0
         snake.push_back(newSectionPosition);
     }
-
-    void moveApple()
+    void addSnakeSection2()
     {
-        sf::Vector2f appleLocation1;
-        sf::Vector2f appleLocation2;
+        sf::Vector2f newSectionPosition = snake2[snake2.size() - 1].getPosition1(); //-1 because index starts with 0
+        snake2.push_back(newSectionPosition);
+    }
+
+    void moveApple1()
+    {
         bool badLocation = false;
         //srand(time(nullptr));
         do
         {
             badLocation = false;
             appleLocation1.x = (rand() % 40) * 20;
-            appleLocation2.x = (rand() % 40) * 20;
             appleLocation1.y = (rand() % 30) * 20;
+            for (auto &i: snake)
+            {
+                if (i.getShape1().getGlobalBounds().intersects(
+                        sf::Rect<float>(appleLocation1.x, appleLocation1.y, 20, 20)) &&
+                    i.getShape1().getGlobalBounds().intersects(
+                            sf::Rect<float>(appleLocation2.x, appleLocation2.y, 20, 20)))
+                {
+                    badLocation = true;
+                    break;
+                }
+            }
+        } while (badLocation);
+        apple.setPosition(appleLocation1,0);
+    }
+    void moveApple2()
+    {
+        bool badLocation = false;
+        //srand(time(nullptr));
+        do
+        {
+            badLocation = false;
+            appleLocation2.x = (rand() % 40) * 20;
             appleLocation2.y = (rand() % 30) * 20;
             for (auto &i: snake)
             {
@@ -484,6 +539,6 @@ public:
                 }
             }
         } while (badLocation);
-        apple.setPosition(appleLocation1, appleLocation2);
+        apple.setPosition(appleLocation2,1);
     }
 };
