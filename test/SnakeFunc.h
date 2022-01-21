@@ -4,6 +4,7 @@
 #include<vector>
 #include <deque>
 #include <thread>
+#include "ClassApple.h"
 
 class Apple {
     sf::RectangleShape sprite;
@@ -132,6 +133,7 @@ public:
         sf::Event event;
         while (snakeWindow.pollEvent(event)) {
             if (event.type == (sf::Event::Closed)) {
+                restart();
                 snakeWindow.close();
             }
             if (event.type == sf::Event::KeyPressed) {
@@ -177,32 +179,40 @@ public:
         }
     }
 
-    void update() {
-        if (timeSinceLastMove.asSeconds() >= sf::seconds(1.f / float(speed)).asSeconds()) {
+    void update()
+    {
+        if (timeSinceLastMove.asSeconds() >= sf::seconds(1.f / float(speed)).asSeconds())
+        {
             sf::Vector2f thisSectionPosition = snake[0].getPosition1();
             sf::Vector2f thisSectionPosition2 = snake2[0].getPosition2(); //TODO: or getposition1?
             sf::Vector2f lastSectionPosition = thisSectionPosition;
             sf::Vector2f lastSectionPosition2 = thisSectionPosition2;
 
-            if (!directionQueue1.empty()) {
-                switch (snake1Direction) {
+            if (!directionQueue1.empty())
+            {
+                switch (snake1Direction)
+                {
                     case direction::UP:
-                        if (directionQueue1.front() != direction::DOWN) {
+                        if (directionQueue1.front() != direction::DOWN)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
                     case direction::DOWN:
-                        if (directionQueue1.front() != direction::UP) {
+                        if (directionQueue1.front() != direction::UP)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
                     case direction::LEFT:
-                        if (directionQueue1.front() != direction::RIGHT) {
+                        if (directionQueue1.front() != direction::RIGHT)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
                     case direction::RIGHT:
-                        if (directionQueue1.front() != direction::LEFT) {
+                        if (directionQueue1.front() != direction::LEFT)
+                        {
                             snake1Direction = directionQueue1.front();
                         }
                         break;
@@ -210,25 +220,31 @@ public:
                 directionQueue1.pop_front();
             }
 
-            if (!directionQueue2.empty()) {
-                switch (snake2Direction) {
+            if (!directionQueue2.empty())
+            {
+                switch (snake2Direction)
+                {
                     case direction::UP:
-                        if (directionQueue2.front() != direction::DOWN) {
+                        if (directionQueue2.front() != direction::DOWN)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
                     case direction::DOWN:
-                        if (directionQueue2.front() != direction::UP) {
+                        if (directionQueue2.front() != direction::UP)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
                     case direction::LEFT:
-                        if (directionQueue2.front() != direction::RIGHT) {
+                        if (directionQueue2.front() != direction::RIGHT)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
                     case direction::RIGHT:
-                        if (directionQueue2.front() != direction::LEFT) {
+                        if (directionQueue2.front() != direction::LEFT)
+                        {
                             snake2Direction = directionQueue2.front();
                         }
                         break;
@@ -236,19 +252,23 @@ public:
                 directionQueue2.pop_front();
             }
 
-            if (sectionsToAdd1) {
+            if (sectionsToAdd1)
+            {
                 addSnakeSection1();
                 sectionsToAdd1--;
             }
-            if (sectionsToAdd2) {
+            if (sectionsToAdd2)
+            {
                 addSnakeSection2();
                 sectionsToAdd2--;
             }
 
             //update snakes head position
-            switch (snake1Direction) {
+            switch (snake1Direction)
+            {
                 case direction::RIGHT:
-                    if (thisSectionPosition.x > 800) {
+                    if (thisSectionPosition.x > 800)
+                    {
                         thisSectionPosition.x = -20;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x, thisSectionPosition.y));
                     }
@@ -256,7 +276,8 @@ public:
                     break;
 
                 case direction::DOWN:
-                    if (thisSectionPosition.y > 600) {
+                    if (thisSectionPosition.y > 600)
+                    {
                         thisSectionPosition.y = -20;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x, thisSectionPosition.y + 20));
                     }
@@ -264,7 +285,8 @@ public:
                     break;
 
                 case direction::LEFT:
-                    if (thisSectionPosition.x - 20 < 0) {
+                    if (thisSectionPosition.x - 20 < 0)
+                    {
                         thisSectionPosition.x = 800;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x - 20, thisSectionPosition.y));
                     }
@@ -272,7 +294,8 @@ public:
                     break;
 
                 case direction::UP:
-                    if (thisSectionPosition.y - 20 < 0) {
+                    if (thisSectionPosition.y - 20 < 0)
+                    {
                         thisSectionPosition.y = 600;
                         snake[0].setPosition1(sf::Vector2f(thisSectionPosition.x, thisSectionPosition.y - 20));
                     }
@@ -281,9 +304,11 @@ public:
             }
 
             //update snakes head position
-            switch (snake2Direction) {
+            switch (snake2Direction)
+            {
                 case direction::RIGHT:
-                    if (thisSectionPosition2.x > 800) {
+                    if (thisSectionPosition2.x > 800)
+                    {
                         thisSectionPosition2.x = -20;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x + 20, thisSectionPosition2.y));
                     }
@@ -291,7 +316,8 @@ public:
                     break;
 
                 case direction::DOWN:
-                    if (thisSectionPosition2.y > 600) {
+                    if (thisSectionPosition2.y > 600)
+                    {
                         thisSectionPosition2.y = -20;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x, thisSectionPosition2.y + 20));
                     }
@@ -299,7 +325,8 @@ public:
                     break;
 
                 case direction::LEFT:
-                    if (thisSectionPosition2.x - 20 < 0) {
+                    if (thisSectionPosition2.x - 20 < 0)
+                    {
                         thisSectionPosition2.x = 800;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x - 20, thisSectionPosition2.y));
                     }
@@ -307,7 +334,8 @@ public:
                     break;
 
                 case direction::UP:
-                    if (thisSectionPosition2.y - 20 < 0) {
+                    if (thisSectionPosition2.y - 20 < 0)
+                    {
                         thisSectionPosition2.y = 600;
                         snake2[0].setPosition2(sf::Vector2f(thisSectionPosition2.x, thisSectionPosition2.y - 20));
                     }
@@ -316,7 +344,8 @@ public:
             }
 
             //update snake tail position
-            for (int i = 1; i < snake.size(); i++) {
+            for (int i = 1; i < snake.size(); i++)
+            {
                 thisSectionPosition = snake[i].getPosition1();
                 snake[i].setPosition1(lastSectionPosition);
                 lastSectionPosition = thisSectionPosition;
@@ -324,56 +353,91 @@ public:
 
 
             //update snake tail position
-            for (int i = 1; i < snake2.size(); i++) {
+            for (int i = 1; i < snake2.size(); i++)
+            {
                 thisSectionPosition2 = snake2[i].getPosition2();
                 snake2[i].setPosition2(lastSectionPosition2);
                 lastSectionPosition2 = thisSectionPosition2;
             }
 
-            for (auto &i: snake) {
+            for (auto &i: snake)
+            {
                 i.update();
             }
-            for (auto &i: snake2) {
+            for (auto &i: snake2)
+            {
                 i.update();
             }
 
             timeSinceLastMove = sf::Time::Zero;
 
-            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
+            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds()))
+            {
                 sectionsToAdd1 += 2;
                 speed += 0.75;
                 moveApple1();
             }
-            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
+            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds()))
+            {
                 sectionsToAdd2 += 2;
                 speed += 0.75;
                 moveApple1();
             }
-            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
+            if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds()))
+            {
                 sectionsToAdd1 += 2;
                 speed += 0.75;
                 moveApple2();
             }
-            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
+            if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds()))
+            {
                 sectionsToAdd2 += 2;
                 speed += 0.75;
                 moveApple2();
             }
-            for (int i = 1; i < snake.size(); i++) {
+            for (int i = 1; i < snake.size(); i++)
+            {
                 if (snake[0].getShape1().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
                     snake2[0].getShape2().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
-                    snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds())) {
-                    snakeWindow.close();
+                    snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds()))
+                {
+                    for (int i = 1; i < snake.size(); i++)
+                    {
+                        if (snake[0].getShape1().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
+                            snake2[0].getShape2().getGlobalBounds().intersects(
+                                    snake[i].getShape1().getGlobalBounds()) ||
+                            snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds()))
+                        {
+                            restart();
+                            snakeWindow.close();
+                        }
+                    }
+                    for (int i = 1; i < snake2.size(); i++)
+                    {
+                        if (snake2[0].getShape2().getGlobalBounds().intersects(
+                                snake2[i].getShape2().getGlobalBounds()) ||
+                            snake[0].getShape1().getGlobalBounds().intersects(
+                                    snake2[i].getShape2().getGlobalBounds()) ||
+                            snake[0].getShape1().getGlobalBounds().intersects(snake2[0].getShape2().getGlobalBounds()))
+                        {
+                            for (int i = 1; i < snake2.size(); i++)
+                            {
+                                if (snake2[0].getShape2().getGlobalBounds().intersects(
+                                        snake2[i].getShape2().getGlobalBounds()) ||
+                                    snake[0].getShape1().getGlobalBounds().intersects(
+                                            snake2[i].getShape2().getGlobalBounds()) ||
+                                    snake[0].getShape1().getGlobalBounds().intersects(
+                                            snake2[0].getShape2().getGlobalBounds()))
+                                {
+                                    restart();
+                                    snakeWindow.close();
+                                }
+                            }
+                            timeSinceLastMove = sf::Time::Zero;
+                        }
+                    }
                 }
             }
-            for (int i = 1; i < snake2.size(); i++) {
-                if (snake2[0].getShape2().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
-                    snake[0].getShape1().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
-                    snake[0].getShape1().getGlobalBounds().intersects(snake2[0].getShape2().getGlobalBounds())) {
-                    snakeWindow.close();
-                }
-            }
-            timeSinceLastMove = sf::Time::Zero;
         }
     }
 
@@ -465,5 +529,17 @@ public:
             }
         } while (badLocation);
         apple.setPosition(appleLocation2, 1);
+    }
+
+    void restart()
+    {
+        snake1Direction=RIGHT;
+        snake2Direction=LEFT;
+        timeSinceLastMove= sf::Time::Zero;
+        directionQueue1.clear();
+        directionQueue2.clear();
+        newSnake();
+        moveApple1();
+        moveApple2();
     }
 };
