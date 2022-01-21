@@ -144,6 +144,9 @@ class Engine {
     int sectionsToAdd2;
     Apple apple;
 
+    sf::Music notif;
+    sf::Music bite;
+
     sf::Time timeSinceLastMove;
 public:
     enum direction {
@@ -157,6 +160,10 @@ public:
         newSnake();
         moveApple1();
         moveApple2();
+        //buffer.loadFromFile("notif.wav");
+        notif.openFromFile("notif.wav");
+        bite.openFromFile("bite.wav");
+        //notif.setLoopPoints(sf::Music::TimeSpan(sf::seconds(loopEnd - 8.0f), sf::seconds(8.0f)));
         wallLocation1.x=(rand()%7)*20;
         wallLocation2.x=(rand()%7)*20;
         wallLocation1.y=(rand()%7)*20;
@@ -384,21 +391,29 @@ public:
             timeSinceLastMove = sf::Time::Zero;
 
             if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
+                bite.stop();
+                bite.play();
                 sectionsToAdd1 += 2;
                 speed += 1;
                 moveApple1();
             }
             if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
+                bite.stop();
+                bite.play();
                 sectionsToAdd2 += 2;
                 speed += 1;
                 moveApple1();
             }
             if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
+                bite.stop();
+                bite.play();
                 sectionsToAdd1 += 2;
                 speed += 1;
                 moveApple2();
             }
             if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
+                bite.stop();
+                bite.play();
                 sectionsToAdd2 += 2;
                 speed += 1;
                 moveApple2();
@@ -407,6 +422,8 @@ public:
                 if (snake[0].getShape1().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
                     snake2[0].getShape2().getGlobalBounds().intersects(snake[i].getShape1().getGlobalBounds()) ||
                     snake2[0].getShape2().getGlobalBounds().intersects(snake[0].getShape1().getGlobalBounds())) {
+                    notif.stop();
+                    notif.play();
                     restart();
                     snakeWindow.close();
                 }
@@ -415,6 +432,8 @@ public:
                 if (snake2[0].getShape2().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
                     snake[0].getShape1().getGlobalBounds().intersects(snake2[i].getShape2().getGlobalBounds()) ||
                     snake[0].getShape1().getGlobalBounds().intersects(snake2[0].getShape2().getGlobalBounds())) {
+                    notif.stop();
+                    notif.play();
                     restart();
                     snakeWindow.close();
                 }
@@ -424,6 +443,8 @@ public:
                snake[0].getShape1().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20))||
                snake2[0].getShape2().getGlobalBounds().intersects(sf::Rect<float >(wallLocation2.x,wallLocation2.y,60,20)))
             {
+                notif.stop();
+                notif.play();
                 restart();
                 snakeWindow.close();
             }
