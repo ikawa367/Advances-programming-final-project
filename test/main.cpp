@@ -3,15 +3,16 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include"MainMenu.h"
-#include "SnakeFunc.h"
+#include "Engine.h"
 #include "ClassApple.h"
+
 using namespace std;
 
 bool musicFlag = 1;
 bool difficultyLevel = 0;
 
 int main() {
-    Engine engine; //TODO: nemidoonam jash doroste ya na.
+    Engine engine;
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(700, 800), "My window", sf::Style::Default, settings);

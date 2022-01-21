@@ -3,7 +3,7 @@
 
 MainMenu::MainMenu(float width, float height) {
     if (!fontOfOptions.loadFromFile("Amatic-Bold.ttf")) {
-        //exit(0);
+        //you can handle bug but no need in here
     }
 
     //if you want to center each item in the middle of the pannel you'll use the formula below:
@@ -45,6 +45,7 @@ void MainMenu::draw(sf::RenderWindow &window) {
     }
 }
 
+//updates colors when you move up and down between options
 void MainMenu::moveUp() {
     if (selectedItemIndex - 1 >= 0) {
         menuText[selectedItemIndex].setFillColor(sf::Color::Green);
