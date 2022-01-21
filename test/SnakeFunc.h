@@ -340,22 +340,22 @@ public:
 
             if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
                 sectionsToAdd1 += 2;
-                speed += 0.75;
+                speed += 1;
                 moveApple1();
             }
             if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite1().getGlobalBounds())) {
                 sectionsToAdd2 += 2;
-                speed += 0.75;
+                speed += 1;
                 moveApple1();
             }
             if (snake[0].getShape1().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
                 sectionsToAdd1 += 2;
-                speed += 0.75;
+                speed += 1;
                 moveApple2();
             }
             if (snake2[0].getShape2().getGlobalBounds().intersects(apple.getSprite2().getGlobalBounds())) {
                 sectionsToAdd2 += 2;
-                speed += 0.75;
+                speed += 1;
                 moveApple2();
             }
             for (int i = 1; i < snake.size(); i++) {
