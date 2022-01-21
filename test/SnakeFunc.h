@@ -156,6 +156,10 @@ public:
         newSnake();
         moveApple1();
         moveApple2();
+        wallLocation1.x=(rand()%3)*20;
+        wallLocation2.x=(rand()%3)*20;
+        wallLocation1.y=(rand()%3)*20;
+        wallLocation2.y=(rand()%3)*20;
         sectionsToAdd1 = 0;
         sectionsToAdd2 = 0;
     }
